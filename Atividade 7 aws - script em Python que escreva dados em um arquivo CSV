@@ -1,0 +1,28 @@
+import csv
+
+def criar_arquivo_csv(nome_arquivo):
+    # Dados de exemplo
+    pessoas = [
+        {"Nome": "Ana", "Idade": 28, "Cidade": "São Paulo"},
+        {"Nome": "Bruno", "Idade": 34, "Cidade": "Rio de Janeiro"},
+        {"Nome": "Carla", "Idade": 22, "Cidade": "Belo Horizonte"},
+    ]
+
+    # Campos/colunas do CSV
+    campos = ["Nome", "Idade", "Cidade"]
+
+    # Abrir o arquivo para escrita
+    with open(nome_arquivo, mode='w', newline='', encoding='utf-8') as arquivo_csv:
+        escritor = csv.DictWriter(arquivo_csv, fieldnames=campos)
+        
+        # Escrever o cabeçalho
+        escritor.writeheader()
+        
+        # Escrever as linhas de dados
+        for pessoa in pessoas:
+            escritor.writerow(pessoa)
+
+    print(f"Arquivo '{nome_arquivo}' criado com sucesso!")
+
+# Exemplo de uso
+criar_arquivo_csv("dados_pessoais.csv")
