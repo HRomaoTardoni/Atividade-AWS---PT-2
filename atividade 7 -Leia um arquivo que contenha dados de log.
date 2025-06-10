@@ -1,0 +1,33 @@
+import statistics
+
+def calcular_media_desvio(arquivo):
+    tempos = []
+    with open(arquivo, 'r') as f:
+        for linha in f:
+            linha = linha.strip()
+            if linha:  # ignora linhas vazias
+                try:
+                    # tenta converter para float
+                    tempo = float(linha)
+                    tempos.append(tempo)
+                except ValueError:
+                    # Se a linha não for um número, tenta extrair número (exemplo: "Epoch 1: 12.3")
+                    import re
+                    numeros = re.findall(r"[-+]?\d*\.\d+|\d+", linha)
+                    if numeros:
+                        tempo = float(numeros[-1])  # pega o último número da linha
+                        tempos.append(tempo)
+
+    if len(tempos) == 0:
+        print("Nenhum tempo válido encontrado no arquivo.")
+        return
+
+    media = statistics.mean(tempos)
+    desvio = statistics.stdev(tempos) if len(tempos) > 1 else 0
+
+    print(f"Média do tempo de execução: {media:.4f} segundos")
+    print(f"Desvio padrão do tempo de execução: {desvio:.4f} segundos")
+
+# Exemplo de uso
+arquivo_log = "tempos.txt"
+calcular_media_desvio(arquivo_log)
